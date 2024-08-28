@@ -1,0 +1,59 @@
+        -:    0:Source:euler_circuit.cpp
+        -:    1:#include "euler_circuit.hpp"
+        -:    2:#include <vector>
+        -:    3:#include <stack>
+        -:    4:#include <iostream>
+        -:    5:
+        1:    6:bool isConnected(const Graph& graph) {
+        1:    7:    int vertices = graph.getNumVertices();
+        2:    8:    std::vector<bool> visited(vertices, false);
+        2:    9:    std::stack<int> stack;
+        -:   10:
+        1:   11:    int startVertex = -1;
+       1*:   12:    for (int i = 0; i < vertices; ++i) {
+        1:   13:        if (!graph.getAdjList(i).empty()) {
+        1:   14:            startVertex = i;
+        1:   15:            break;
+        -:   16:        }
+        -:   17:    }
+        -:   18:
+       1*:   19:    if (startVertex == -1) return true;
+        -:   20:
+        1:   21:    stack.push(startVertex);
+        -:   22:
+        4:   23:    while (!stack.empty()) {
+        3:   24:        int v = stack.top();
+        3:   25:        stack.pop();
+        -:   26:
+        3:   27:        if (!visited[v]) {
+        3:   28:            visited[v] = true;
+        7:   29:            for (int neighbor : graph.getAdjList(v)) {
+        4:   30:                if (!visited[neighbor]) {
+        2:   31:                    stack.push(neighbor);
+        -:   32:                }
+        -:   33:            }
+        -:   34:        }
+        -:   35:    }
+        -:   36:
+        4:   37:    for (int i = 0; i < vertices; ++i) {
+       3*:   38:        if (!graph.getAdjList(i).empty() && !visited[i]) {
+    #####:   39:            return false;
+        -:   40:        }
+        -:   41:    }
+        -:   42:
+        1:   43:    return true;
+        -:   44:}
+        -:   45:
+        1:   46:bool hasEulerCircuit(const Graph& graph) {
+        1:   47:    if (!isConnected(graph)) {
+    #####:   48:        return false;
+        -:   49:    }
+        -:   50:
+       1*:   51:    for (int i = 0; i < graph.getNumVertices(); ++i) {
+        1:   52:        if (graph.getAdjList(i).size() % 2 != 0) {
+        1:   53:            return false;
+        -:   54:        }
+        -:   55:    }
+        -:   56:
+    #####:   57:    return true;
+        -:   58:}

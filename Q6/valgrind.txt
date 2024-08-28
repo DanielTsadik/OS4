@@ -1,0 +1,56 @@
+==23178== Memcheck, a memory error detector
+==23178== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==23178== Using Valgrind-3.15.0 and LibVEX; rerun with -h for copyright info
+==23178== Command: ./hello arg1 arg2 arg3
+==23178== 
+==23178== (action at startup) vgdb me ... 
+==23178== 
+==23178== TO DEBUG THIS PROCESS USING GDB: start GDB like this
+==23178==   /path/to/gdb ./hello
+==23178== and then give GDB the following command
+==23178==   target remote | /usr/lib/x86_64-linux-gnu/valgrind/../../bin/vgdb --pid=23178
+==23178== --pid is optional if only one valgrind process is running
+==23178== 
+==23178== Conditional jump or move depends on uninitialised value(s)
+==23178==    at 0x109234: main (hello.c:10)
+==23178== 
+==23178== (action on error) vgdb me ... 
+==23178== Continuing ...
+==23178== Use of uninitialised value of size 8
+==23178==    at 0x483F094: strcpy (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==23178==    by 0x109248: main (hello.c:11)
+==23178== 
+==23178== (action on error) vgdb me ... 
+==23178== Continuing ...
+==23178== Conditional jump or move depends on uninitialised value(s)
+==23178==    at 0x483F0D5: strcpy (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==23178==    by 0x109248: main (hello.c:11)
+==23178== 
+==23178== (action on error) vgdb me ... 
+==23178== Continuing ...
+==23178== Conditional jump or move depends on uninitialised value(s)
+==23178==    at 0x483F0DA: strcpy (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==23178==    by 0x109248: main (hello.c:11)
+==23178== 
+==23178== (action on error) vgdb me ... 
+==23178== Continuing ...
+==23178== Conditional jump or move depends on uninitialised value(s)
+==23178==    at 0x483F0DC: strcpy (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==23178==    by 0x109248: main (hello.c:11)
+==23178== 
+==23178== (action on error) vgdb me ... 
+==23178== Continuing ...
+==23178== Conditional jump or move depends on uninitialised value(s)
+==23178==    at 0x483F0EB: strcpy (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==23178==    by 0x109248: main (hello.c:11)
+==23178== 
+==23178== (action on error) vgdb me ... 
+==23178== Continuing ...
+==23178== Invalid write of size 2
+==23178==    at 0x1092AC: main (hello.c:14)
+==23178==  Address 0x4a52048 is 8 bytes inside a block of size 9 alloc'd
+==23178==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==23178==    by 0x10922A: main (hello.c:8)
+==23178== 
+==23178== (action on error) vgdb me ... 
+==23178== Continuing ...

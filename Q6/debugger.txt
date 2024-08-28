@@ -1,0 +1,73 @@
+Reading symbols from ./hello...
+(gdb) target remote | vgdb --pid=23178
+Remote debugging using | vgdb --pid=23178
+relaying data between gdb and process 23178
+warning: remote target does not support file transfer, attempting to access files from local filesystem.
+Reading symbols from /lib64/ld-linux-x86-64.so.2...
+Reading symbols from /usr/lib/debug/.build-id/db/0420f708b806cf03260aadb916c330049580b7.debug...
+0x0000000004001100 in _start () from /lib64/ld-linux-x86-64.so.2
+(gdb) break 8
+Breakpoint 1 at 0x10921b: file hello.c, line 8.
+(gdb) break 11
+Breakpoint 2 at 0x109236: file hello.c, line 11.
+(gdb) break 5
+Breakpoint 3 at 0x1091dc: file hello.c, line 5.
+(gdb) continue
+Continuing.
+
+Breakpoint 3, main (argc=4, argv=0x1ffefff948) at hello.c:5
+5       int i, length; length = 0;
+(gdb) next
+6       for(i=0; i<argc; i++) {
+(gdb) step
+7       length += strlen(argv[i])+1;
+(gdb) continue
+Continuing.
+
+Breakpoint 1, main (argc=4, argv=0x1ffefff948) at hello.c:8
+8       string = malloc(length+1);
+(gdb) continue
+Continuing.
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x0000000000109234 in main (argc=4, argv=0x1ffefff948) at hello.c:10
+10      if(string_so_far != (char *)0)
+(gdb) continue
+Continuing.
+
+Breakpoint 2, main (argc=4, argv=0x1ffefff948) at hello.c:11
+11      strcpy(string, string_so_far);
+(gdb) continue
+Continuing.
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x000000000483f094 in _vgr20080ZU_libcZdsoZa_strcpy ()
+   from /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so
+(gdb) run
+The "remote" target does not support "run".  Try "help target" or "continue".
+(gdb) step
+Single stepping until exit from function _vgr20080ZU_libcZdsoZa_strcpy,
+which has no line number information.
+main (argc=4, argv=0x1ffefff948) at hello.c:13
+13      strcat(string, argv[i]);
+(gdb) step
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x00000000001092ac in main (argc=4, argv=0x1ffefff948) at hello.c:14
+14      if(i < argc-1) strcat(string, " ");
+(gdb) continue
+Continuing.
+
+Breakpoint 1, main (argc=4, argv=0x1ffefff948) at hello.c:8
+8       string = malloc(length+1);
+(gdb) next
+10      if(string_so_far != (char *)0)
+(gdb) print i
+$1 = 1
+(gdb) next
+
+Breakpoint 2, main (argc=4, argv=0x1ffefff948) at hello.c:11
+11      strcpy(string, string_so_far);
+(gdb) print i
+$2 = 1
+(gdb) 

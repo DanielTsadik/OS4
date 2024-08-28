@@ -1,0 +1,119 @@
+        -:    0:Source:RandomGraph.cpp
+        -:    1:#include "graph.hpp"
+        -:    2:#include "euler_circuit.hpp"
+        -:    3:#include <iostream>
+        -:    4:#include <cstdlib>
+        -:    5:#include <ctime>
+        -:    6:#include <set>
+        -:    7:#include <vector>
+        -:    8:#include <stack>
+        -:    9:#include <algorithm>
+        -:   10:
+        1:   11:void generateRandomGraph(Graph& graph, int numEdges, int numVertices) {
+        2:   12:    std::set<std::pair<int, int>> uniqueEdges;
+        -:   13:
+        7:   14:    while (uniqueEdges.size() < static_cast<std::set<std::pair<int, int>>::size_type>(numEdges)) {
+        6:   15:        int src = rand() % numVertices;
+        6:   16:        int dest = rand() % numVertices;
+        -:   17:
+        6:   18:        if (src != dest) {
+        4:   19:            auto edge = std::make_pair(std::min(src, dest), std::max(src, dest));
+        4:   20:            if (uniqueEdges.find(edge) == uniqueEdges.end()) {
+        3:   21:                uniqueEdges.insert(edge);
+        3:   22:                graph.addEdge(src, dest);
+        -:   23:            }
+        -:   24:        }
+        -:   25:    }
+        1:   26:}
+        -:   27:
+        1:   28:void printEdges(const Graph& graph) {
+        2:   29:    std::set<std::pair<int, int>> uniqueEdges;
+        -:   30:
+        4:   31:    for (int i = 0; i < graph.getNumVertices(); ++i) {
+        9:   32:        for (int neighbor : graph.getAdjList(i)) {
+        6:   33:            if (i <= neighbor) {
+        3:   34:                uniqueEdges.insert(std::make_pair(i, neighbor));
+        -:   35:            }
+        -:   36:        }
+        -:   37:    }
+        -:   38:
+        1:   39:    std::cout << "Generated Graph:\n";
+        4:   40:    for (const auto& edge : uniqueEdges) {
+        3:   41:        std::cout << edge.first << " - " << edge.second << std::endl;
+        -:   42:    }
+        1:   43:}
+        -:   44:
+        1:   45:std::vector<int> findEulerCircuit(Graph graph) {
+        1:   46:    std::vector<int> circuit;
+        1:   47:    if (!hasEulerCircuit(graph)) {
+    #####:   48:        return circuit; // Return empty if no Euler circuit exists
+        -:   49:    }
+        -:   50:
+        2:   51:    std::stack<int> path;
+        1:   52:    path.push(0); // Start from vertex 0
+        1:   53:    int current = 0;
+        -:   54:
+        8:   55:    while (!path.empty()) {
+        7:   56:        if (!graph.getAdjList(current).empty()) {
+        3:   57:            path.push(current);
+        3:   58:            int next = graph.getAdjList(current).front();
+        3:   59:            graph.removeEdge(current, next);
+        3:   60:            current = next;
+        -:   61:        } else {
+        4:   62:            circuit.push_back(current);
+        4:   63:            current = path.top();
+        4:   64:            path.pop();
+        -:   65:        }
+        -:   66:    }
+        -:   67:
+        1:   68:    std::reverse(circuit.begin(), circuit.end());
+        1:   69:    return circuit;
+        -:   70:}
+        -:   71:
+        1:   72:int main() {
+        -:   73:    int numEdges, numVertices, seed;
+        -:   74:
+        1:   75:    std::cout << "Enter the number of vertices: ";
+        1:   76:    std::cin >> numVertices;
+        -:   77:
+        1:   78:    std::cout << "Enter the number of edges: ";
+        1:   79:    std::cin >> numEdges;
+        -:   80:
+        1:   81:    std::cout << "Enter the seed for random generation: ";
+        1:   82:    std::cin >> seed;
+        -:   83:
+        1:   84:    if (numEdges <= 0 || numVertices <= 0) {
+    #####:   85:        std::cerr << "Number of edges and vertices must be greater than 0." << std::endl;
+    #####:   86:        return 1;
+        -:   87:    }
+        -:   88:
+        1:   89:    int maxEdges = (numVertices * (numVertices - 1)) / 2;
+        -:   90:
+        1:   91:    if (numEdges > maxEdges) {
+    #####:   92:        std::cerr << "Number of edges exceeds the maximum possible edges for the given number of vertices." << std::endl;
+    #####:   93:        return 1;
+        -:   94:    }
+        -:   95:
+        1:   96:    srand(seed);
+        -:   97:
+        1:   98:    Graph graph(numVertices);
+        1:   99:    generateRandomGraph(graph, numEdges, numVertices);
+        1:  100:    printEdges(graph);
+        -:  101:
+        1:  102:    if (hasEulerCircuit(graph)) {
+        1:  103:        std::cout << "The graph has an Euler circuit.\n";
+        2:  104:        std::vector<int> eulerCircuit = findEulerCircuit(graph);
+        1:  105:        std::cout << "Euler Circuit: ";
+        5:  106:        for (size_t i = 0; i < eulerCircuit.size(); ++i) {
+        4:  107:            std::cout << eulerCircuit[i];
+        4:  108:            if (i != eulerCircuit.size() - 1) {
+        3:  109:                std::cout << " -> ";
+        -:  110:            }
+        -:  111:        }
+        1:  112:        std::cout << std::endl;
+        -:  113:    } else {
+    #####:  114:        std::cout << "The graph does not have an Euler circuit." << std::endl;
+        -:  115:    }
+        -:  116:
+        1:  117:    return 0;
+        -:  118:}

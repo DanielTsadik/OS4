@@ -1,0 +1,22 @@
+        -:    0:Source:graph.cpp
+        -:    1:#include "graph.hpp"
+        -:    2:
+        1:    3:Graph::Graph(int vertices) : numVertices(vertices), adjList(vertices) {}
+        -:    4:
+        3:    5:void Graph::addEdge(int src, int dest) {
+        3:    6:    adjList[src].push_back(dest);
+        3:    7:    adjList[dest].push_back(src);
+        3:    8:}
+        -:    9:
+        3:   10:void Graph::removeEdge(int src, int dest) {
+        3:   11:    adjList[src].remove(dest);
+        3:   12:    adjList[dest].remove(src);
+        3:   13:}
+        -:   14:
+       14:   15:int Graph::getNumVertices() const {
+       14:   16:    return numVertices;
+        -:   17:}
+        -:   18:
+       33:   19:const std::list<int>& Graph::getAdjList(int vertex) const {
+       33:   20:    return adjList[vertex];
+        -:   21:}
