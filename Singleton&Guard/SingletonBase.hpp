@@ -18,6 +18,9 @@ protected:
     // Mutex for thread-safe Singleton initialization
     static pthread_mutex_t mutex;
 
+    // Added a pure virtual function to make the class abstract
+    virtual void doSomething() = 0; // Pure virtual function
+
 public:
     // Delete copy constructor and assignment operator to prevent copying
     SingletonBase(const SingletonBase&) = delete;
