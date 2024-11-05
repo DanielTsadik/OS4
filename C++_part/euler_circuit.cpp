@@ -45,7 +45,7 @@ bool isConnected(const Graph& graph) {
 
     // Check if all vertices with edges have been visited
     for (int i = 0; i < vertices; ++i) {
-        if (!graph.getAdjList(i).empty() && !visited[i]) {  // If there's a vertex with edges that hasn't been visited
+        if (!visited[i]) {  // If there's a vertex with edges that hasn't been visited
             return false;  // The graph is not connected
         }
     }
