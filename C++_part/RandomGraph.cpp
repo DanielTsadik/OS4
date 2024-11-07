@@ -107,24 +107,26 @@ std::vector<int> findEulerCircuit(Graph graph) {
  *
  * @return 0 if the program completes successfully, or 1 if an error occurs.
  */
-int main() {
-    int numEdges, numVertices, seed;
+int main(int argc, char *argv[]) {
+    int numEdges = 0, numVertices = 0, seed = 0, opt;
 
-    // Prompt the user for input
-    std::cout << "Enter the number of vertices: ";
-    std::cin >> numVertices;
-
-    std::cout << "Enter the number of edges: ";
-    std::cin >> numEdges;
-
-    std::cout << "Enter the seed for random generation: ";
-    std::cin >> seed;
-
-    // Validate input
-    if (numEdges <= 0 || numVertices <= 0) {
-        std::cerr << "Number of edges and vertices must be greater than 0." << std::endl;
-        return 1;
-    }
+    // Parse command-line options using getopt
+    while ((opt = getopt(argc, argv, "v:e:s:")) != -1) {
+        switch (opt) {
+            case 'v':
+                numVertices = std::stoi(optarg);  // convert argument to integer
+                break;
+            case 'e':
+                numEdges = std::stoi(optarg);  // convert argument to integer
+                break;
+            case 's':
+                seed = std::stoi(optarg);  // convert argument to integer
+                break;
+            default:
+                std::cerr << "Usage: " << argv[0] << " -v numVertices -e numEdges -s seed\n";
+                return 1;
+        }
+    }
 
     // Calculate the maximum possible number of edges for the given number of vertices
     int maxEdges = (numVertices * (numVertices - 1)) / 2;
