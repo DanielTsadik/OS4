@@ -27,14 +27,17 @@ public:
     SingletonBase& operator=(const SingletonBase&) = delete;
 
     // Static method to get the instance of the derived Singleton class
+    static SingletonBase* getInstance();
+/*  an example of how its should look:
     static SingletonBase* getInstance() {
-        pthread_mutex_lock(&mutex); // Lock the mutex
-
-        static SingletonBase* instance = new SingletonBase();
-
-        pthread_mutex_unlock(&mutex); // Unlock the mutex
+        pthread_mutex_lock(&mutex);  // Lock the mutex
+        if (instance == nullptr) {
+            instance = new SingletonDerived();  // Create the Singleton instance
+        }
+        pthread_mutex_unlock(&mutex);  // Unlock the mutex
         return instance;
-    }
+    }
+*/
 };
 
 // Initialize the static mutex
